@@ -1,3 +1,5 @@
+//Swiper start
+
 const promoSwiper = new Swiper(".promo__slider", {
 	pagination: {
 		el: ".promo__slider .swiper-pagination",
@@ -24,7 +26,8 @@ const projectsSwiper = new Swiper(".projects__slider", {
 	},
 	breakpoints: {
 		320: {
-			slidesPerView: 1.5,
+			slidesPerView: 1.24,
+			spaceBetween: 25,
 		},
 		575: {
 			slidesPerView: 1.5,
@@ -36,29 +39,63 @@ const projectsSwiper = new Swiper(".projects__slider", {
 	},
 });
 
-const projectsFirstColCoords = document.querySelector('.projects__col').getBoundingClientRect(),
-	projectsSlider = document.querySelector('.projects__slider'),
-	projectsFirstCol = document.querySelector('.projects__col');
+const blogSwiper = new Swiper(".blog__slider", {
+	slidesPerView: 4,
+	spaceBetween: 40,
+	navigation: {
+		nextEl: ".blog__next",
+		prevEl: ".blog__prev",
+	},
+	breakpoints: {
+		320: {
+			slidesPerView: 1.25,
+			spaceBetween: 20,
+		},
+		575: {
+			slidesPerView: 2,
+		},
+		768: {
+			slidesPerView: 3,
+			spaceBetween: 30,
+		},
+		992: {
+			slidesPerView: 4,
+		},
+					
+	},
+});
 
-//projectsSlider.style.marginLeft = projectsFirstColCoords.left + projectsFirstColCoords.width + 40 + "px";
+const historySwiper = document.querySelectorAll('.history__slider');
 
-	projectsSlider.style.width = `calc(100vw - (${projectsFirstColCoords.left} + ${projectsFirstColCoords.width} + 40px`;
+historySwiper.forEach(item => {
+	const historySwiperItem = new Swiper(item, {
+		slidesPerView: 1.3,
+		spaceBetween: 40,
+		grabCursor: true,
+		scrollbar: {
+			el: '.history__scrollbar',
+			draggable: true,
+			//dragSize: dragSize
+		},
+		breakpoints: {
+			320: {
+				slidesPerView: 1,
+			},
+			575: {
+				slidesPerView: 1,
+			},
+			767: {
+				slidesPerView: 1.2,
+			},
+			1440: {
+				slidesPerView: 1.3,
+			},
+						
+		},
+	});
+});
 
-
-
-function setPaginationPosition() {
-	const promo = document.querySelector('.promo'),
-		promoImageCoords = promo.querySelector('.promo__img').getBoundingClientRect(),
-		promoPagination = promo.querySelector('.swiper-pagination'),
-		promoNav = promo.querySelector('.promo__slider-nav');
-		if (document.documentElement.clientWidth > 767) {
-			promoPagination.style.left = promoImageCoords.left + 40 + "px";
-			promoNav.style.left = promoImageCoords.left + promoImageCoords.width - 158 + "px";
-		}
-}
-setPaginationPosition();
-window.addEventListener("resize", setPaginationPosition);
-
+//Swiper end
 
 const footer = document.querySelector('.footer');
 const copy = document.querySelector('.footer__copyright');
@@ -67,8 +104,19 @@ const headerMenu = document.querySelector('#header_menu');
 const menuBurger = document.querySelector('.js-toggle-menu');
 const policy = document.querySelector('.policy');
 const footerDownload =  document.querySelector('.footer__links');
+const tabLinks = document.querySelectorAll('.history__nav-link');
+
+const btnTop = document.querySelector('.js-top');
 
 
+
+// выравнивание в верстке пагинации - слайдер на главной
+if (document.querySelector('.promo')) {
+	setPaginationPositionPromoSlide();
+	window.addEventListener("resize", setPaginationPositionPromoSlide);
+}
+
+// изменение положения блоков для мобильной верстки
 if (document.documentElement.clientWidth < 1200) {
 	footer.querySelector('.container').append(copy);
 	headerMenu.prepend(headerSearch);
@@ -78,371 +126,110 @@ if (document.documentElement.clientWidth < 992) {
 	footerDownload.before(policy);
 }
 
-menuBurger.addEventListener('click', (e) => {
-	if (headerMenu.classList.contains('open')) {
-		headerMenu.classList.remove('open');
-		menuBurger.classList.remove('close');
-	} else {
-		headerMenu.classList.add('open');
-		menuBurger.classList.add('close');
-	}
+// табы в Истории компании
+tabLinks.forEach(link => {
+	link.addEventListener('click', switchTab);
 });
 
-//window.addEventListener('load', function () {
-//  const preloader = document.getElementById('preloader');
-//  preloader.style.display = 'none';
-//});
+// прокрутка страницы вверх
+window.addEventListener('scroll', scrollTop);
+btnTop.addEventListener('click', function () {
+	window.scrollTo({ top: 0, behavior: 'smooth' });
+});
 
 
 
-//document.addEventListener("DOMContentLoaded", () => {
-//	const catalogToggleBtn = document.querySelector('.js-toggle-catalog');
-//	const catalogMenu = document.querySelector('.catalog');
-//	const body = document.querySelector('body');
+toggleMenuMobil();
+scrollTabsNav();
 
-//	if (document.documentElement.clientWidth >= 767) {
-//		catalogToggleBtn.addEventListener('click', function () {
-//			if (!(catalogToggleBtn.classList.contains('active'))) {
-//				catalogToggleBtn.classList.add('active');
-//				catalogMenu.classList.add('active');
-//			} else {
-//				catalogToggleBtn.classList.remove('active');
-//				catalogMenu.classList.remove('active');
-//			}
-//		});
-//	}
-//	if (document.documentElement.clientWidth <= 767) {
-//		const menuTrigger = document.querySelector('.js-toggle-menu'),
-//			menuClose = document.querySelectorAll('.js-menu-close'),
-//			mobileModal = document.querySelector('.mobile-modal'),
-//			menuTop = document.querySelector('#header_menu');
-		
-//		//const parentLinkMenu = document.querySelectorAll('.catalog-link.parent');
-//		const mobileDropLink = document.querySelectorAll('.mobile-modal .drop-link');
-//		//const mobileDropdown = document.querySelectorAll('.mobile-modal .catalog-dropdown');
+// functions
 
-		
-//		mobileDropLink.forEach((link) => {
-//			link.addEventListener('click', (e) => {
-//				e.preventDefault();
-//				console.log(link.parentElement.nextElementSibling);
-//				if (link.parentElement.nextElementSibling.classList.contains('dropdown-active')) {
-//					link.parentElement.nextElementSibling.classList.remove('dropdown-active');
-//				} else {
-//					link.parentElement.nextElementSibling.classList.add('dropdown-active');
-//				}
-				
-//			});
-//		});
-		
-//		// mobil menu
-//		catalogToggleBtn.addEventListener('click', (function () {
-//			mobileModal.classList.add('mobile-modal--show');
-//			body.classList.add('no-scroll');
-//		}));
+// выравнивание в верстке пагинации - слайдер на главной
+function setPaginationPositionPromoSlide() {
+	const promo = document.querySelector('.promo'),
+		promoImageCoords = promo.querySelector('.promo__img').getBoundingClientRect(),
+		promoPagination = promo.querySelector('.swiper-pagination'),
+		promoNav = promo.querySelector('.promo__slider-nav');
+		if (document.documentElement.clientWidth > 767) {
+			promoPagination.style.left = promoImageCoords.left + 40 + "px";
+			promoNav.style.left = promoImageCoords.left + promoImageCoords.width - 158 + "px";
+		}
+}
 
-//		menuTrigger.addEventListener('click', (function () {
-//			menuTop.classList.add('mobile-modal--show');
-//			body.classList.add('no-scroll');
-//		}));
-  
-//		menuClose.forEach(function (close) {
-//			close.addEventListener('click', (function () {
-//				if (mobileModal.classList.contains('mobile-modal--show') || menuTop.classList.contains('mobile-modal--show')) {
-//					mobileModal.classList.remove('mobile-modal--show', 'mobile-modal--show-screen');
-//					menuTop.classList.remove('mobile-modal--show', 'mobile-modal--show-screen');
-//					body.classList.remove('no-scroll');
-//				}
-//			}));
-//		});
-//	}
+// мобильное меню
+function toggleMenuMobil() {
+	menuBurger.addEventListener('click', (e) => {
+		if (headerMenu.classList.contains('open')) {
+			headerMenu.classList.remove('open');
+			menuBurger.classList.remove('close');
+		} else {
+			headerMenu.classList.add('open');
+			menuBurger.classList.add('close');
+		}
+	});
+}
 
+// табы История компании
+function switchTab(event) {
+	event.preventDefault();
+
+	tabLinks.forEach(link => link.classList.remove('active'));
+	document.querySelectorAll('.history__content-item').forEach(content => content.classList.remove('active'));
+
+	const targetId = this.getAttribute('href').substring(1);
+	this.classList.add('active');
+	document.getElementById(targetId).classList.add('active');
+}
+
+// прокрутка навигации табов в Истории компании
+function scrollTabsNav() {
+	const tabsContainer = document.getElementById('tabs-container');
+	const navPrev = document.getElementById('nav-prev');
+	const navNext = document.getElementById('nav-next');
+	const scrollAmount = 90; 
+
+	navPrev.addEventListener('click', function(event) {
+			event.preventDefault();
+			tabsContainer.scrollLeft -= scrollAmount;
+	});
+
+	navNext.addEventListener('click', function(event) {
+			event.preventDefault();
+			tabsContainer.scrollLeft += scrollAmount;
+	});
+}
+
+//кнопка прокрутки страницы наверх
+function scrollTop() {
+	const footerRect = footer.getBoundingClientRect();
+	const btnTopRect = btnTop.getBoundingClientRect();
+
+	if (window.scrollY > 300) {
+		btnTop.style.display = 'block';
+	} else {
+			btnTop.style.display = 'none';
+	}
+	// не позволяем опусткаться кнопке ниже футера
+	if (footerRect.top < window.innerHeight) {
+		btnTop.style.bottom = `${window.innerHeight - footerRect.top + 20}px`;
+		// 20px – это отступ от футера
+	} else {
+			btnTop.style.bottom = '80px';
+	}
 	
-	
-	
-	
+}
 
 
-//	const promo = new Swiper('.promo__slider', {
-//		loop: true,
-//		pagination: {
-//			el: '.swiper-pagination',
-//		},
-//		navigation: {
-//			nextEl: '.swiper-button-next',
-//			prevEl: '.swiper-button-prev',
-//		},
-//	});
-//	const cards = new Swiper('.slider-cards', {
-//		slidesPerView: 5,
-//		spaceBetween: 38,
-//		breakpoints: {
-//			320: {
-//				slidesPerView: 1.7,
-//				spaceBetween: 10,
-//			},
-//			400: {
-//				slidesPerView: 2,
-//				spaceBetween: 10,
-//			},
-//			575: {
-//				slidesPerView: 3,
-//				spaceBetween: 10,
-//			},
-
-//			880: {
-//				slidesPerView: 4,
-//				spaceBetween: 10,
-//			},
-//			1100: {
-//				slidesPerView: 5,
-//				spaceBetween: 10,
-//			},
-			
-//		},
-//	});
 
 
-//	const news = new Swiper('.tab-pane-show .news__slider', {
-//		slidesPerView: 3,
-//		spaceBetween: 40,
-//		navigation: {
-//			nextEl: '.news__slider-nav .swiper-button-next',
-//			prevEl: '.news__slider-nav .swiper-button-prev',
-//		},
-//		breakpoints: {
-//			320: {
-//				slidesPerView: 1,
-//				spaceBetween: 20,
-//			},
-//			575: {
-//				slidesPerView: 2,
-//				spaceBetween: 20,
-//			},
-//			768: {
-//				slidesPerView: 3,
-//				spaceBetween: 20,
-//			},
-//		}
-//	});
-
-//	const productSliderThumbs = new Swiper('.js-thumbs-slider', {
-//		spaceBetween: 10,
-//		freeMode: true,
-//		slidesPerView: 3,
-//		watchSlidesProgress: true,
-//		navigation: {
-//			nextEl: '.thumbs__slide-next',
-//			prevEl: '.thumbs__slide-prev',
-//		},
-//	});
-	
-//	const productSliderTop = new Swiper('.js-product-slider', {
-//    slidesPerView: 1,
-//		spaceBetween: 1000,
-//		effect: 'fade',
-//		fadeEffect: {
-//			crossFade: true
-//		},
-//    loop: false,
-//    navigation: {
-//        nextEl: '.swiper-button-next',
-//        prevEl: '.swiper-button-prev',
-//    },
-//    thumbs: {
-//        swiper: productSliderThumbs,
-//    }
-//});
-	
-//console.log(document.documentElement.clientWidth);
-//	if (document.documentElement.clientWidth >= 767) {
-//		console.log(document.documentElement.clientWidth);
-//		const options = {
-//			width: 359,
-//			height: 250,
-//			zoomWidth: 250,
-//			offset: {vertical: 0, horizontal: 20},
-//			//scale: 1.3,
-//			zoomStyle: 'transform: translateX(150%) scale(2) translateY(24%); top:0%'
-//		};
-
-//		document.querySelectorAll('.js-product-slider .slider__slide').forEach((slide, index) => {
-//			const img = slide.querySelector('img');
-//			const zoomContainer = document.createElement('div');
-//			zoomContainer.classList.add('zoom-box');
-//			zoomContainer.style.position = 'relative';
-			
-//			img.parentNode.insertBefore(zoomContainer, img);
-
-//			zoomContainer.appendChild(img);
-//			new ImageZoom(zoomContainer, options);
-//		});
-//	}
-
-//	const reviewItems = document.querySelectorAll('.reviews-item');
-
-//	reviewItems.forEach(function(item) {
-//			const linkMore = item.querySelector('.link-more');
-//			const reviewText = item.querySelector('.reviews-text');
-//		if (linkMore) {
-//			linkMore.addEventListener('click', function (event) {
-//				event.preventDefault();
-
-//				if (reviewText.classList.contains('expanded')) {
-//					reviewText.classList.remove('expanded');
-//					linkMore.textContent = 'Посмотреть весь отзыв';
-//				} else {
-//					reviewText.classList.add('expanded');
-//					linkMore.textContent = 'Скрыть отзыв';
-//				}
-//			});
-//		}
-//	});
-
-//	Fancybox.bind('[data-fancybox="gallery"]', {
-
-//	});    
-	
-//	const showTab = (elTabBtn) => {
-//		const elTab = elTabBtn.closest('.tab');
-//		if (elTabBtn.classList.contains('tab-btn-active')) {
-//			return;
-//		}
-//		const targetId = elTabBtn.dataset.targetId;
-//		const elTabPane = elTab.querySelector(`.tab-pane[data-id="${targetId}"]`);
-//		console.log(elTabPane);
-//		console.log(elTabPane.querySelector('.news__slider'));
-//		const elTabPaneSwiper = elTabPane.querySelector('.news__slider');
-
-		
-//		const news = new Swiper(elTabPaneSwiper, {
-//			slidesPerView: 3,
-//			spaceBetween: 40,
-//			navigation: {
-//				nextEl: '.news__slider-nav .swiper-button-next',
-//				prevEl: '.news__slider-nav .swiper-button-prev',
-//			},
-//			breakpoints: {
-//				320: {
-//					slidesPerView: 1,
-//					spaceBetween: 20,
-//				},
-//				575: {
-//					slidesPerView: 2,
-//					spaceBetween: 20,
-//				},
-//				768: {
-//					slidesPerView: 3,
-//					spaceBetween: 20,
-//				},
-//			}
-			
-//		});
 
 
-//		if (elTabPane) {
-//			const elTabBtnActive = elTab.querySelector('.tab-btn-active');
-//			elTabBtnActive.classList.remove('tab-btn-active');
-//			const elTabPaneShow = elTab.querySelector('.tab-pane-show');
-//			elTabPaneShow.classList.remove('tab-pane-show');
-//			elTabBtn.classList.add('tab-btn-active');
-//			elTabPane.classList.add('tab-pane-show');
-//		}
-//	}
-	
-//	document.addEventListener('click', (e) => {
-//		if (e.target && !e.target.closest('.tab-btn')) {
-//			return;
-//		}
-//		const elTabBtn = e.target.closest('.tab-btn');
-		
-//		showTab(elTabBtn);
-//	});
-
-//	const sidebar = document.querySelector('.sidebar');
-//	if (sidebar) {
-//		const sidebarDropLink = sidebar.querySelectorAll('.drop-link'),
-//			sidebarDropdown = sidebar.querySelectorAll('.dropdown');
-
-//		sidebarDropLink.forEach((item) => {
-//			item.addEventListener('click', function (e) {
-//				e.preventDefault();
-//				let parent = e.target.parentElement;
-//				console.log(parent.nextElementSibling);
-//				if (parent.nextElementSibling.classList.contains('dropdown-active')) {
-//					e.target.classList.add('active');
-//					parent.nextElementSibling.classList.remove('dropdown-active');
-//				} else {
-//					e.target.classList.remove('active');
-//					parent.nextElementSibling.classList.add('dropdown-active');
-//				}
-//			})
-//			})
-//		}
-//	window.addEventListener('resize', updateMobileDesign);
-//	window.addEventListener('resize', updateResponsive);
-
-//	updateMobileDesign();
-
-//	function updateMobileDesign() {
-//		let colLogoHeader = document.querySelector('.header-top .-col-logo');
-//		let linkCatalogSecton = document.querySelector('.catalog-section .section__link');
-//		let btnHow = document.querySelector('.how .btn-questions');
-//		let btnPromoSlider = document.querySelector('.promo__slider .swiper-buttons');
-//		let phoneFooter = document.querySelector('.footer__phone');
-
-//		if (document.documentElement.clientWidth <= 767) {
-//			if (colLogoHeader) {
-//				document.querySelector('.header-nav .-header-row').prepend(colLogoHeader);
-//			}
-//			if (linkCatalogSecton) {
-//				document.querySelector('.catalog-section .container').append(linkCatalogSecton);
-//			}
-//			if (btnHow) {
-//				document.querySelector('.-col-accordion').append(btnHow);
-//			}
-			
-//		} 
-
-//		if (document.documentElement.clientWidth <= 575) {
-//			if (btnPromoSlider) {
-//				document.querySelector('.promo .col-slider').append(btnPromoSlider);
-//			}
-//			if (phoneFooter) {
-//				document.querySelector('.-col-subscription').prepend(phoneFooter);
-//			}
-//		}
-//	}
-//	function updateResponsive() {
-//		colLogoHeader = document.querySelector('.header-nav .-header-row .-col-logo');
-//		linkCatalogSecton = document.querySelector('.catalog-section .container .section__link');
-//		btnHow = document.querySelector('.how .btn-questions');
-//		btnPromoSlider = document.querySelector('.promo .swiper-buttons');
-//		phoneFooter = document.querySelector('.-col-subscription .footer__phone');
 
 
-//		if (document.documentElement.clientWidth > 767) {
-//			if (colLogoHeader) {
-//				document.querySelector('.header-top .-header-row').prepend(colLogoHeader);
-//			}
-//			if (linkCatalogSecton) {
-//				document.querySelector('.catalog-section .section__top').append(linkCatalogSecton);
-//			}
-//			if (btnHow) {
-//				document.querySelector('.how .-col-info').append(btnHow);
-//			}
-//		}
-//		if (document.documentElement.clientWidth > 575) {
-//			if (btnPromoSlider) {
-//				document.querySelector('.promo .promo__slider').append(btnPromoSlider);
-//			}
-//			if (phoneFooter) {
-//				document.querySelector('.footer .-col-phone').prepend(phoneFooter);
-//			}
-//		}
-//	}
+//const projectsFirstColCoords = document.querySelector('.projects__col').getBoundingClientRect(),
+//	projectsSlider = document.querySelector('.projects__slider'),
+//	projectsFirstCol = document.querySelector('.projects__col');
 
+//projectsSlider.style.marginLeft = projectsFirstColCoords.left + projectsFirstColCoords.width + 40 + "px";
 
-//});
-
-   
+//projectsSlider.style.width = `calc(100vw - (${projectsFirstColCoords.left} + ${projectsFirstColCoords.width} + 40px`;
