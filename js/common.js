@@ -95,6 +95,33 @@ historySwiper.forEach(item => {
 	});
 });
 
+const objectsSwiper = document.querySelectorAll('.objects__slider');
+objectsSwiper.forEach(item => {
+	const parent = item.closest('.objects__item');
+	const objectSwiper = new Swiper(item, {
+		slidesPerView: 1,
+		grabCursor: true,
+		pagination: {
+			el: item.querySelector('.objects__pagination'),
+			type: 'bullets',
+		},
+		navigation: {
+			nextEl: parent.querySelector('.objects__nav-next'),
+			prevEl: parent.querySelector('.objects__nav-prev'),
+		},
+	});
+});
+
+const topSwiper = new Swiper(".top__slider", {
+	slidesPerView: 1,
+	speed: 600,
+	navigation: {
+		nextEl: ".top__nav-next",
+		prevEl: ".top__nav-prev",
+	}
+	
+});
+
 //Swiper end
 
 const footer = document.querySelector('.footer');
@@ -140,7 +167,10 @@ btnTop.addEventListener('click', function () {
 
 
 toggleMenuMobil();
-scrollTabsNav();
+if (document.getElementById('tabs-container')) {
+	scrollTabsNav();
+}
+
 
 // functions
 

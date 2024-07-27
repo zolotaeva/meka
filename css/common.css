@@ -366,7 +366,7 @@ input[type=radio].custom-radiobox:checked + label:after {background: #222E6A;}
 .wrapper .breadcrumb{border-bottom: 0}
 	.content{padding-top: 15px;}
 	.page{}
-		.page__title{padding-bottom: 19px;}
+		.page__title{padding-bottom: 19px; text-transform: uppercase;}
 		.page__anons{max-width: 680px;}
 
 .achievements{margin-top: 40px;}
@@ -378,6 +378,31 @@ input[type=radio].custom-radiobox:checked + label:after {background: #222E6A;}
 			.achievement__subtitle{padding-bottom: 5px; font-size: 14px;}
 			.achievement__title{padding-bottom: 20px; font-size: 24px; line-height: 29px; color: #18336C;}
 			.achievement__text{font-size: 14px; color: #626A8F; line-height: 1.5;}
+
+.objects{padding-top: 21px;}
+	.objects__item{margin-bottom: 50px;}
+		.objects__slider{}
+				.objects__img{}
+				.objects__pagination .swiper-pagination-bullet{width: 12px; height: 12px; background: #FFFFFF; border: 1px solid #3368C6; opacity: 1; border-radius: 0;}
+				.objects__pagination .swiper-pagination-bullet-active{background: #222E6A; border: 1px solid #222E6A; opacity: 1;}
+				.objects__pagination .swiper-pagination{bottom: 15px;}
+		.objects__info{padding: 20px 0; max-width: 440px;}
+			.objects__subtitle{padding-bottom: 15px;}
+			.objects__title{font-size: 32px; padding-bottom: 48px;}
+			.objects__text{color: #626A8F; line-height: 1.4; padding-bottom: 20px; border-bottom: 1px solid #18336C;}
+			.objects__nav{margin-top: 60px; display: flex; gap: 10px;}
+
+.top__slider{}
+	.top__item{position: relative;}
+		.top__slider .top__info{max-width: 584px; position: absolute; bottom: 0; left: 0; width: 100%;}
+		.top__nav{display: flex; width: 96px; height: 40px; position: absolute; bottom: 27px; right: 61px; z-index: 3; border: 1px solid #505C97; background: #3368C6; align-items: center; justify-content: center; gap: 10px;}
+			.top__nav-prev{background: url(../i/arrow-left-white.svg) no-repeat center center; display: block; width: 30px; height: 61px; background-repeat: no-repeat; background-size: contain;background-position:center; margin-top: 0; margin-bottom: 0;}
+			.top__nav-next{background: url(../i/arrow-right-white.svg) no-repeat center center; display: block; width: 30px; height: 61px; background-repeat: no-repeat; background-size: contain;background-position:center; margin-top: 0; margin-bottom: 0;}
+
+.plant{padding-bottom: 120px;}
+	.plant__row{}
+	.plant .company__nums{margin-top: 100px; padding-bottom: 100px; border: 0;}
+	.plant__subtitle{color: #18336C; font-size: 40px; font-weight: 600; padding-bottom: 30px;}
 
 
 
