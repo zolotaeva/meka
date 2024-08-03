@@ -11,6 +11,7 @@
 	.history__img span{font-size: 140px;}
 	.history__content-info{padding-left: 10px;}
 	.projects__info{padding-left: 10px;}
+	.header__row.row {--bs-gutter-x: 20px;}
 	
 
 }
@@ -30,13 +31,18 @@
 	.achievement__title{font-size: 20px;}
 	.objects__title{font-size: 20px;}
 	
+	
+}
+@media (max-width: 1066px) {
+.header__row {--bs-gutter-x: 1.5rem;}
+
 }
 
 
-
 @media (max-width: 991px) {
+	.row {--bs-gutter-x: 1.5rem;}
 	.header__burger{display: block;}
-	.header__menu{position: fixed; left: -400px; top: 73px; background: #fff; z-index: 2; height: 100%; flex-direction: column; padding: 40px; transition: all .3s;}
+	.header__menu{position: fixed; left: -400px; top: 73px; background: #fff; z-index: 2; height: 100%; flex-direction: column; padding: 40px; transition: all .3s; width: 348px;}
 	.header__menu.open{left: 0;}
 	.header__nav-list{flex-direction: column; padding: 40px 0;}
 	.header__nav-list{align-items: flex-start;}
@@ -63,7 +69,10 @@
 	.objects__title{font-size: 20px;}
 	.objects__title{padding-bottom: 24px;}
 	.objects__nav{margin-top: 5px;}
-	
+	.aside__box{position: static; margin-bottom: 40px;}
+	.catalog__filter{max-width: 300px;}
+	.filter-item__label{max-width: 100%;}
+	.header__col-navbar{width: 25%;}
 	
 }
 
@@ -96,13 +105,19 @@
 	.achievement__image{padding-top: 0; padding-bottom: 40px;}
 	.objects__title{font-size: 20px;}
 	.objects__nav{justify-content: center; margin-top: 30px;}
-	.objects__info{max-width: 100%;}
+	.objects__info{max-width: 100%; padding-left: 0;}
 	.objects__item{margin-bottom: 10px;}
 	.objects{padding: 11px 0 0;}
+	.catalog__filter{height: 62px; overflow-y: hidden; margin-bottom: 40px; transition: all 0.3s; max-width: 100%;}
+	.catalog__filter.active{height: auto; }
+	.filter-item__label { max-width: 50%;}
+	.header__col-navbar{width: 0px;}
 	
 }
 @media (max-width: 575px) {
 	/*html, body{font-size: 14px;}*/
+	.body{overflow-x: hidden;}
+	.row {--bs-gutter-x: 30px;}
 	.header__compare{margin-right: 20px;}
 	.header__actions{margin-right: 50px;}
 	.promo__slider-nav{display: none;}
@@ -171,5 +186,21 @@
 	.documents-extended .document__info{width: 100%; padding-left: 0; padding-right: 0; padding-top: 20px;}
 	.documents-extended .document__type{margin-bottom: 5px;}
 	.documents-extended .document{align-items: center}
+	.news-detail__text h2{font-size: 24px;}
+	.news-detail__text h3{font-size: 18px;}
+	.pb-40{padding-bottom: 30px;}
+	.aside__box{margin-bottom: 30px;}
+	.tag{height: 50px; font-size: 14px;}
+	.tags__row{gap: 10px;}
+	.tag__img { width: 38px; height: 38px;}
+	.catalog__tags{margin-bottom: 40px;}
+	.filter-item__label { max-width: 100%;}
+	.filter__res{left: auto; right: 20px;}
+	.page-link, .page-more{font-size: 14px;}
+	.header__row{position: static;}
+	.header__top{position: relative;}
+	.header__burger{right: 0;}
+	.page__pagination{padding-top: 40px;}
+	.header__col-search{display: none;}
 	
 }

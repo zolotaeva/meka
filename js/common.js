@@ -124,16 +124,15 @@ const topSwiper = new Swiper(".top__slider", {
 
 //Swiper end
 
-const footer = document.querySelector('.footer');
-const copy = document.querySelector('.footer__copyright');
-const headerSearch = document.querySelector('.header__search');
-const headerMenu = document.querySelector('#header_menu');
-const menuBurger = document.querySelector('.js-toggle-menu');
-const policy = document.querySelector('.policy');
-const footerDownload =  document.querySelector('.footer__links');
-const tabLinks = document.querySelectorAll('.history__nav-link');
-
-const btnTop = document.querySelector('.js-top');
+const footer = document.querySelector('.footer'),
+ copy = document.querySelector('.footer__copyright'),
+ headerSearch = document.querySelector('.header__search'),
+ headerMenu = document.querySelector('#header_menu'),
+ menuBurger = document.querySelector('.js-toggle-menu'),
+ policy = document.querySelector('.policy'),
+ footerDownload =  document.querySelector('.footer__links'),
+ tabLinks = document.querySelectorAll('.history__nav-link'),
+	btnTop = document.querySelector('.js-top');
 
 
 
@@ -146,11 +145,19 @@ if (document.querySelector('.promo')) {
 // изменение положения блоков для мобильной верстки
 if (document.documentElement.clientWidth < 1200) {
 	footer.querySelector('.container').append(copy);
+
+}
+
+if (document.documentElement.clientWidth < 992) {
 	headerMenu.prepend(headerSearch);
 }
 
 if (document.documentElement.clientWidth < 992) {
 	footerDownload.before(policy);
+	if (document.querySelector('.aside__box')) {
+		document.querySelector('.page__title').after(document.querySelector('.aside__box'));
+	}
+	
 }
 
 // табы в Истории компании
@@ -165,10 +172,36 @@ btnTop.addEventListener('click', function () {
 });
 
 
+if (document.querySelector('.aside__box')) {
+	// Инициализируем прокрутку по ссылкам из Содержания
+	initializeScrollLinks();
+}
+
 
 toggleMenuMobil();
 if (document.getElementById('tabs-container')) {
 	scrollTabsNav();
+}
+
+if (document.querySelector('.filter')) {
+	filterToggle();
+}
+
+if(document.querySelector('.products')) {
+	actionToggleActive();
+}
+
+if (document.documentElement.clientWidth < 768 && document.querySelector('.catalog__filter')) {
+	const filterTitle = document.querySelector('.filter__title');
+	const filterWrap = document.querySelector('.catalog__filter');
+
+	filterTitle.addEventListener('click', () => {
+		if (filterWrap.classList.contains('active')) {
+			filterWrap.classList.remove('active');
+		} else {
+			filterWrap.classList.add('active');
+		}
+	})
 }
 
 
@@ -192,9 +225,11 @@ function toggleMenuMobil() {
 		if (headerMenu.classList.contains('open')) {
 			headerMenu.classList.remove('open');
 			menuBurger.classList.remove('close');
+			document.body.classList.remove('overlay');
 		} else {
 			headerMenu.classList.add('open');
 			menuBurger.classList.add('close');
+			document.body.classList.add('overlay');
 		}
 	});
 }
@@ -249,11 +284,78 @@ function scrollTop() {
 	
 }
 
+// якорение по содержанию новости
+function initializeScrollLinks() {
+	// Создаем объект для хранения соответствия между ссылками и заголовками
+	const linkToHeadingMap = new Map();
+
+	// Находим все ссылки в боковом меню
+	const asideBlogLinks = document.querySelectorAll('.aside__list a');
+	// Находим все заголовки h2 и h3 в статье
+	const allHeadings = document.querySelectorAll('.news-detail__content h2, .news-detail__content h3');
+
+	// Заполняем карту соответствия
+	asideBlogLinks.forEach(link => {
+			const titleType = link.dataset.title;
+			const headingIndex = Array.from(allHeadings).findIndex(heading => heading.tagName.toLowerCase() === titleType);
+			if (headingIndex !== -1) {
+					linkToHeadingMap.set(link, allHeadings[headingIndex]);
+			}
+	});
+
+	// Добавляем обработчики кликов на ссылки
+	asideBlogLinks.forEach(link => {
+			link.addEventListener('click', (e) => {
+					e.preventDefault();
+					const targetHeading = linkToHeadingMap.get(link);
+					if (targetHeading) {
+							targetHeading.scrollIntoView({ behavior: 'smooth' });
+					}
+			});
+	});
+}
 
 
+function filterToggle () {
+	const filterItems = document.querySelectorAll('.filter-item__top');
+	
+		filterItems.forEach(item => {
+			item.addEventListener('click', () => {
+				if (item.classList.contains('filter-item__active')) {
+					item.classList.remove('filter-item__active');
+				} else {
+					item.classList.add('filter-item__active');
+				}
+			})
+		})
+}
 
+function actionToggleActive() {
+	const productCompare = document.querySelectorAll('.product__compare'),
+		productFavorite = document.querySelectorAll('.product__favorite');
+	
+	productCompare.forEach(item => {
+		item.addEventListener('click', (e) => {
+			e.preventDefault();
+			if (item.classList.contains('in-compare')) {
+				item.classList.remove('in-compare');
+			} else {
+				item.classList.add('in-compare');
+			}
+		})
+	})
 
-
+	productFavorite.forEach(item => {
+		item.addEventListener('click', (e) => {
+			e.preventDefault();
+			if (item.classList.contains('in-favorite')) {
+				item.classList.remove('in-favorite');
+			} else {
+				item.classList.add('in-favorite');
+			}
+		})
+	})
+}
 
 
 //const projectsFirstColCoords = document.querySelector('.projects__col').getBoundingClientRect(),
