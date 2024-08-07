@@ -122,6 +122,35 @@ const topSwiper = new Swiper(".top__slider", {
 	
 });
 
+
+const productSliderThumbs = new Swiper('.thumbs-slider', {
+	spaceBetween: 20,
+	freeMode: true,
+	slidesPerView: 3,
+	watchSlidesProgress: true,
+	navigation: {
+		nextEl: '.thumbs__slide-next',
+		prevEl: '.thumbs__slide-prev',
+	},
+});
+
+const productSliderTop = new Swiper('.main-slider', {
+	slidesPerView: 1,
+	spaceBetween: 50,
+	//effect: 'fade',
+	//fadeEffect: {
+	//	crossFade: true
+	//},
+	loop: false,
+	navigation: {
+			nextEl: '.swiper-button-next',
+			prevEl: '.swiper-button-prev',
+	},
+	thumbs: {
+			swiper: productSliderThumbs,
+	}
+});
+
 //Swiper end
 
 const footer = document.querySelector('.footer'),
@@ -131,7 +160,8 @@ const footer = document.querySelector('.footer'),
  menuBurger = document.querySelector('.js-toggle-menu'),
  policy = document.querySelector('.policy'),
  footerDownload =  document.querySelector('.footer__links'),
- tabLinks = document.querySelectorAll('.history__nav-link'),
+	tabLinksHistory = document.querySelectorAll('.history__nav-link'),
+	tabContetnHistory = document.querySelectorAll('.history__content-item'),
 	btnTop = document.querySelector('.js-top');
 
 
@@ -161,9 +191,23 @@ if (document.documentElement.clientWidth < 992) {
 }
 
 // табы в Истории компании
-tabLinks.forEach(link => {
-	link.addEventListener('click', switchTab);
+tabLinksHistory.forEach(link => {
+	link.addEventListener('click', function(event) {
+		switchTab(event, tabLinksHistory, tabContetnHistory);
+	});
 });
+
+// табы в карточке товара
+const tabLinksProduct = document.querySelectorAll('.product-tabs__link');
+const tabContetnProduct = document.querySelectorAll('.product-tabs__item');
+
+tabLinksProduct.forEach(link => {
+	link.addEventListener('click', function(event) {
+		switchTab(event, tabLinksProduct, tabContetnProduct);
+	});
+});
+
+
 
 // прокрутка страницы вверх
 window.addEventListener('scroll', scrollTop);
@@ -187,7 +231,7 @@ if (document.querySelector('.filter')) {
 	filterToggle();
 }
 
-if(document.querySelector('.products')) {
+if(document.querySelector('.products') || document.querySelector('.product-card')) {
 	actionToggleActive();
 }
 
@@ -203,6 +247,10 @@ if (document.documentElement.clientWidth < 768 && document.querySelector('.catal
 		}
 	})
 }
+if (document.documentElement.clientWidth < 768 && document.querySelector('.product-card__info')) {
+	document.querySelector('.product-card__top').prepend(document.querySelector('.product-card__info .page__title'));
+}
+
 
 
 // functions
@@ -234,15 +282,18 @@ function toggleMenuMobil() {
 	});
 }
 
+
+
+
 // табы История компании
-function switchTab(event) {
+function switchTab(event, links, content) {
 	event.preventDefault();
 
-	tabLinks.forEach(link => link.classList.remove('active'));
-	document.querySelectorAll('.history__content-item').forEach(content => content.classList.remove('active'));
+	links.forEach(link => link.classList.remove('active'));
+	content.forEach(content => content.classList.remove('active'));
 
-	const targetId = this.getAttribute('href').substring(1);
-	this.classList.add('active');
+	const targetId = event.target.getAttribute('href').substring(1);
+	event.target.classList.add('active');
 	document.getElementById(targetId).classList.add('active');
 }
 
@@ -331,16 +382,23 @@ function filterToggle () {
 }
 
 function actionToggleActive() {
-	const productCompare = document.querySelectorAll('.product__compare'),
-		productFavorite = document.querySelectorAll('.product__favorite');
+	const productCompare = document.querySelectorAll('.js-compare'),
+		productFavorite = document.querySelectorAll('.js-favorite');
 	
 	productCompare.forEach(item => {
 		item.addEventListener('click', (e) => {
 			e.preventDefault();
+			let text = item.textContent;
 			if (item.classList.contains('in-compare')) {
 				item.classList.remove('in-compare');
+				if (text != '') {
+					item.textContent = 'Сравнить';
+				}
 			} else {
 				item.classList.add('in-compare');
+				if (text != '') {
+					item.textContent = 'В сравнении';
+				}
 			}
 		})
 	})
@@ -348,10 +406,17 @@ function actionToggleActive() {
 	productFavorite.forEach(item => {
 		item.addEventListener('click', (e) => {
 			e.preventDefault();
+			let text = item.textContent;
 			if (item.classList.contains('in-favorite')) {
 				item.classList.remove('in-favorite');
+				if (text != '') {
+					item.textContent = 'В избранное';
+				}
 			} else {
 				item.classList.add('in-favorite');
+				if (text != '') {
+					item.textContent = 'В избранном';
+				}
 			}
 		})
 	})
