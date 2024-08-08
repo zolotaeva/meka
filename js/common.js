@@ -1,3 +1,7 @@
+window.addEventListener('load', function () {
+  const preloader = document.querySelector('.preload-wrapper');
+  preloader.style.display = 'none';
+});
 //Swiper start
 
 const promoSwiper = new Swiper(".promo__slider", {
@@ -151,6 +155,33 @@ const productSliderTop = new Swiper('.main-slider', {
 	}
 });
 
+const teamSwiper = new Swiper(".team__slider", {
+	slidesPerView: 4,
+	loop: true,
+	spaceBetween: 40,
+	navigation: {
+		nextEl: ".team__next",
+		prevEl: ".team__prev",
+	},
+	breakpoints: {
+		320: {
+			slidesPerView: 1.3,
+			spaceBetween: 20,
+		},
+		575: {
+			slidesPerView: 2,
+		},
+		768: {
+			slidesPerView: 3,
+			spaceBetween: 30,
+		},
+		992: {
+			slidesPerView: 4,
+		},
+					
+	},
+});
+
 //Swiper end
 
 const footer = document.querySelector('.footer'),
@@ -251,7 +282,19 @@ if (document.documentElement.clientWidth < 768 && document.querySelector('.produ
 	document.querySelector('.product-card__top').prepend(document.querySelector('.product-card__info .page__title'));
 }
 
-
+if (document.documentElement.clientWidth < 768) {
+	document.querySelectorAll('.header__nav-item.nav-item.parent > .nav-link').forEach(link => {
+		link.addEventListener('touchstart', (e) => {
+			e.preventDefault();
+			if(link.classList.contains('active')){
+				link.classList.remove('active');
+			}else {
+				link.classList.add('active');
+			}
+			
+		})
+	})
+}
 
 // functions
 

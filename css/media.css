@@ -44,6 +44,8 @@
 	.objects__title{font-size: 20px;}
 	.btn-buy{padding: 12px 20px; line-height: 1.2;}
 	.answer__item{margin-bottom: 40px;}
+	.header__nav-list > .nav-item{padding: 0 0 20px;}
+	.header__nav-list{padding-top: 30px;}
 	
 }
 @media (max-width: 1066px) {
@@ -95,6 +97,12 @@
 	.product-card__info .pb-60{padding-bottom: 40px;}
 	.support__item{margin-bottom: 20px;}
 	.answer__item{margin-bottom: 20px;}
+	.page__menu{margin-bottom: 40px;}
+	.contacts__form{max-width: 100%;}
+	.contacts__form .feedback__info{margin: 0 auto 30px;}
+	.contacts__title{padding-bottom: 40px;}
+	.drop-menu{position: static; box-shadow:none; padding-bottom: 0;}
+	.header__nav-list > .nav-item{padding-bottom: 10px;}
 }
 
 @media (max-width: 767px) {
@@ -146,6 +154,7 @@
 	.promo__slider-nav{display: none;}
 	.profit__wrap{padding: 30px 25px 0;}
 	.title{font-size: 24px;}
+
 	.catalog__item{height: 260px;}
 	.profit__title_center{padding-bottom: 15px;}
 	.profit__item{padding: 20px; text-align: center;}
@@ -209,8 +218,10 @@
 	.documents-extended .document__info{width: 100%; padding-left: 0; padding-right: 0; padding-top: 20px;}
 	.documents-extended .document__type{margin-bottom: 5px;}
 	.documents-extended .document{align-items: center}
-	.news-detail__text h2{font-size: 24px;}
-	.news-detail__text h3{font-size: 18px;}
+	.news-detail__text h2,
+	.page__text h2{font-size: 24px;}
+	.news-detail__text h3,
+	.page__text h3{font-size: 18px;}
 	.pb-40{padding-bottom: 30px;}
 	.aside__box{margin-bottom: 30px;}
 	.tag{height: 50px; font-size: 14px;}
@@ -235,4 +246,13 @@
 	.product-docs__size{order: 2;}
 	.answer__item{height: 240px; background-position: center!important}
 	.answer__row{margin-bottom: 80px;}
+	.team .container{padding-right: 0;}
+	.page__content{padding-bottom: 40px;}
+	.page__menu-link{font-size: 16px;padding-bottom: 10px;}
+	.requisites__top{flex-direction: column; gap: 20px; align-items: flex-start;}
+	.contacts-item__text,
+	.contacts-item__text a,
+	.requisites__text{font-size: 18px;}
+	.contacts__requisites{padding-top: 80px; padding-bottom: 80px;}
+	.social{flex-direction: column; gap: 16px; align-items: flex-start;}
 }
