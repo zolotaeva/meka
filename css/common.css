@@ -126,7 +126,7 @@ input[type=radio].custom-radiobox:checked + label:after {background: #222E6A;}
 
 
 
-.header{padding: 0 0 23px;}
+.header{}
 	.header__top{}
 		.header__row{align-items: center; justify-content: space-between;}
 		.header__logo{display: block; padding: 14px 0 30px 0;}
